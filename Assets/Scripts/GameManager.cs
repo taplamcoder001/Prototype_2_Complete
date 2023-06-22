@@ -1,37 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public int lives = 3;
     public int score = 0;
+    public TextMeshProUGUI gameoverText,scoreText,livesText;
     private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameManager = GetComponent<GameManager>();
+        livesText.text = "Live: " + lives;
     }
 
     public void AddLives(int value)
     {
         lives += value;
-        if(lives <= 0)
+        if(lives == 0)
         {
-            Debug.Log("GameOver");
             lives =0;
+            gameoverText.gameObject.SetActive(true);
+            PauseGame();
         }
-        Debug.Log("Live = " + lives);
+        livesText.text = "Live: " + lives;
     }
     public void AddScore(int value)
     {
         score += value;
-        Debug.Log("Score:" + score);
+        scoreText.text = "Score: " + score;
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
     }
 }
